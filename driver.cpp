@@ -4,32 +4,13 @@
  */
 
 #include "particle.h"
+#include "simPrototypes.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
 #include <iostream>
 #include <array>
 #include <math.h>
-
-//Define particle number
-#define n 50
-
-//Define number of simulation steps
-#define STEPS 50
-
-//Define particle size
-#define SIZE 1
-//Define mass
-#define MASS 1
-//Define net velocity
-#define VEL 1.5
-
-//Define box dimensions
-#define BOX_X 10
-#define BOX_Y 10
-
-//Other defines
-#define PI 3.14159265359
 
 using namespace std;
 
@@ -44,13 +25,34 @@ int main(int argc, char * argv[])
   double vx = 0.0;
   double vy = 0.0;
   double theta = 0.0;
+  double tmp = 0.0;
+  int sign = 1;
 
-  array<Particle, n> particles;
-  for(int i = 0; i < n; ++i )
+  array<Particle, NUM> particles;
+  for(int i = 0; i < NUM; ++i )
   {
     //Generate random position
-    x = (((double)rand()) / (RAND_MAX))*BOX_X;
-    y = (((double)rand()) / (RAND_MAX))*BOX_Y;
+    tmp = (((double)rand()) / (RAND_MAX));
+    if(tmp > 0.5)
+    {
+      sign = 1;
+    }
+    else
+    {
+      sign = -1;
+    }
+    x = (((double)rand()) / (RAND_MAX))*0.9*sign*BOX_X;
+    
+    tmp = (((double)rand()) / (RAND_MAX));
+    if(tmp > 0.5)
+    {
+      sign = 1;
+    }
+    else
+    {
+      sign = -1;
+    }
+    y = (((double)rand()) / (RAND_MAX))*0.9*sign*BOX_Y;
     
     //Generate random angle
     theta = (((double)rand()) / (RAND_MAX))*2.0*PI;
@@ -72,9 +74,14 @@ int main(int argc, char * argv[])
   }
 
   //Run simulations
-  //TODO
+  runSim(particles);
 
   //Output data
+  for(int i = 0; i < NUM; i++)
+  {
+    double v = sqrt(particles[i].getVx()*particles[i].getVx() + particles[i].getVy()*particles[i].getVy());
+    printf("%lf\n",v);
+  }
 
   return 0;
 }
