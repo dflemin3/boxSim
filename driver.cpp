@@ -25,62 +25,35 @@ int main(int argc, char * argv[])
   double vx = 0.0;
   double vy = 0.0;
   double theta = 0.0;
-  double tmp = 0.0;
-  int sign = 1;
+
+  //Compute particle velocity given temp
+  double velocity = compute_v(TEMP,MASS);
 
   array<Particle, NUM> particles;
   for(int i = 0; i < NUM; ++i )
   {
     //Generate random position
-    tmp = (((double)rand()) / (RAND_MAX));
-    if(tmp > 0.5)
-    {
-      sign = 1;
-    }
-    else
-    {
-      sign = -1;
-    }
-    x = (((double)rand()) / (RAND_MAX))*0.9*sign*BOX_X;
-    
-    tmp = (((double)rand()) / (RAND_MAX));
-    if(tmp > 0.5)
-    {
-      sign = 1;
-    }
-    else
-    {
-      sign = -1;
-    }
-    y = (((double)rand()) / (RAND_MAX))*0.9*sign*BOX_Y;
-    
-    //Generate random angle
+    x = (((double)rand()) / (RAND_MAX))*0.9*BOX_X;
+    y = (((double)rand()) / (RAND_MAX))*0.9*BOX_Y;
+
+    //Generate random velocity
+    //v_x = v_0*cos(theta)
+    //v_y = v_0*sin(theta)
     theta = (((double)rand()) / (RAND_MAX))*2.0*PI;
-    vx = VEL*cos(theta);
-    vy = VEL*sin(theta);
+    vx = velocity*cos(theta);
+    vy = velocity*sin(theta);
 
     particles[i] = (Particle(MASS,SIZE,x,y,vx,vy));
   }
 
-  //Initialize array to hold output of the form
-  //time, x, y, vx, vy
-  array <array<double, 5>, STEPS> outArr;
-  for(int i = 0; i < STEPS; i++)
-  {
-    for(int j = 0; j < 5; j++)
-    {
-      outArr[i][j] = 0.0;
-    }
-  }
-
-  //Run simulations
+  //Run simulation
   runSim(particles);
 
   //Output data
   for(int i = 0; i < NUM; i++)
   {
     double v = sqrt(particles[i].getVx()*particles[i].getVx() + particles[i].getVy()*particles[i].getVy());
-    printf("%lf\n",v);
+    printf("%e\n",v);
   }
 
   return 0;

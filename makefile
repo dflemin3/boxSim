@@ -1,8 +1,8 @@
 OBJFLAGS=driver.o particle.o simFunctions.o
 INCFLAGS=particle.h simPrototypes.h
-COMPFLAGS=-Wall -I/usr/local/include -O3 -c -std=c++11 -stdlib=libc++
-LINKFLAGS=-L/usr/local/lib
-GSLFLAGS=-lgsl -lgslcblas -lm
+COMPFLAGS=-Wall -O3 -c -std=c++11 -stdlib=libc++
+LINKFLAGS=
+GSLFLAGS=
 
 all: driver
 

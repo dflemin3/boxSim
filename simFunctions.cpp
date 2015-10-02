@@ -22,7 +22,7 @@ double dot2D(double x1, double y1, double x2, double y2)
   return x1*x2 + y1*y2;
 }
 
-/* Functions that deal with collisions */
+/* Functions that deal with particle motions, collisions */
 
 /* Checks to see whether or not 2 particles collided
  * They collide if their centers are within 2 radii
@@ -31,7 +31,7 @@ double dot2D(double x1, double y1, double x2, double y2)
 bool did_colide(const Particle &a, const Particle &b)
 {
   double distance = (a.getX()-b.getX())*(a.getX()-b.getX());
-  distance *= (a.getY()-b.getY())*(a.getY()-b.getY());
+  distance += (a.getY()-b.getY())*(a.getY()-b.getY());
 
   if(distance < 4.0*a.getSize()*a.getSize())
   {
@@ -52,38 +52,37 @@ bool did_colide(const Particle &a, const Particle &b)
 double select_dt(const Particle &a)
 {
   double v = sqrt(a.getVx()*a.getVx() + a.getVy()*a.getVy());
-  return 0.5*a.getSize()/v;
+  return 0.33*a.getSize()/v;
 }
 
 /* Periodic boundary conditions
  */
 void enforce_walls(Particle &a)
 {
-  //Case: Particle outside of right wall
+  //Corner cases
+  if(fabs(a.getX()) > BOX_X && (a.getY() > BOX_Y || a.getY() < 0.0))
+  {
+    a.setVx(-1.0*a.getVx());
+    a.setVy(-1.0*a.getVy());
+    return;
+  }
+
+  //Case: Particle outside of right/left wall
   //Reverse vx
-  if(a.getX() > BOX_X)
+  if(a.getX() > BOX_X || a.getX() < 0.0)
   {
     a.setVx(-1.0*a.getVx());
+    return;
   }
 
-  //Case: Particle outside left wall
-  if(a.getX() < -BOX_X)
-  {
-    a.setVx(-1.0*a.getVx());
-  }
-
-  //Case: Particle outside top wall
-  if(a.getY() > BOX_Y)
+  //Case: Particle outside top/bottom wall
+  if(a.getY() > BOX_Y || a.getY() < 0.0)
   {
     a.setVy(-1.0*a.getVy());
+    return;
   }
 
-  //Case: Particle outside bottom wall
-  if(a.getY() < -BOX_Y)
-  {
-    a.setVy(-1.0*a.getVy());
-  }
-
+  //Inside box!
   return;
 }
 
@@ -111,6 +110,7 @@ void collision(Particle &a, Particle &b)
   v1y -= coeff1*(a.getY()-b.getY());
   v2y -= coeff2*(b.getY()-a.getY());
 
+  //Assign new velocities to particles
   a.setVx(v1x);
   a.setVy(v1y);
   b.setVx(v2x);
@@ -128,6 +128,16 @@ void move(Particle &a, double dt)
   a.setY(a.getY() + dt*a.getVy());
 
   return;
+}
+
+/* Given a temperature for the gas, compute the velocity
+ * via the following (3/2)*N*k*T = 0.5*m*<v^2>
+ * -> v = sqrt(3*N*K*T/m)
+ */
+
+double compute_v(double T, double mass)
+{
+  return sqrt(3.0*K_B*T/mass);
 }
 
 /* Run simulation
@@ -151,14 +161,15 @@ void runSim(array<Particle, NUM> &particles)
       move(particles[i],dt);
       
       //Iterate over other particles, see if collision occurs
-      for(int j = 0; i < NUM; i++)
+      for(int j = 0; j < NUM; j++)
       {
         //Can't collide with self
         if(i != j)
         {
+          //If they actually collided
           if(did_colide(particles[i],particles[j]))
           {
-            //Conserve energy, momentum
+            //Change velocity while energy, momentum conserved
             collision(particles[i],particles[j]);
           }
         }
@@ -174,6 +185,26 @@ void runSim(array<Particle, NUM> &particles)
 
   } //end of simulation while loop
 
+  return;
 }
 
 /* Output functions */
+
+/* Dump all data to output file
+ */
+void output(array<array<double, 5>, STEPS> &outArr)
+{
+  FILE * handle = fopen("output.dat","w");
+  if(NULL == handle)
+  {
+    fprintf(stderr,"Error opening output.dat.\n");
+    exit(1);
+  }
+
+  for(int i = 0; i < STEPS; i++)
+  {
+    fprintf(handle,"%lf %lf %e %e %e\n",outArr[i][0],outArr[i][1],outArr[i][2],outArr[i][3],outArr[i][4]);
+  }
+
+  return;
+}

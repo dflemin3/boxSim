@@ -11,21 +11,30 @@
 
 //Define particle number
 #define NUM 100 
+
 //Define number of simulation steps
-#define STEPS 5000000 
-//Define particle size
-#define SIZE 1.0
-//Define mass
-#define MASS 1.0
-//Define net velocity
-#define VEL 1.0
-//Define box dimensions
-//Box goes from x: [-BOX_X,BOX_X]
-//              y: [-BOY_Y,BOY_Y]
-#define BOX_X 50
-#define BOX_Y 50
-//Other defines
+#define STEPS 1000000 
+
+//All units in cgs
+
+//Size of particle (charge radius of proton in cm)
+#define SIZE 8.775e-14
+
+//Define mass (mass of proton in g for simplicity)
+#define MASS 1.6726219e-24
+
+//Define temperature of gas in kelvin
+#define TEMP 273.0
+
+//Define box dimensions (cm/r_proton)
+//Box goes from x: [0,BOX_X]
+//              y: [0,BOY_Y]
+#define BOX_X 50.0*SIZE
+#define BOX_Y 50.0*SIZE
+
+//Constants
 #define PI 3.14159265359
+#define K_B 1.380658e-16
 
 #include "particle.h"
 #include <array>
@@ -40,5 +49,6 @@ double select_dt(const Particle &a, const double v);
 void enforce_walls(Particle &a);
 void move(Particle &a, double dt);
 void runSim(array<Particle, NUM> &particles);
+double compute_v(double T, double mass);
 
 #endif
