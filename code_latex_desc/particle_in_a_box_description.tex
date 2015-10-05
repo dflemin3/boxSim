@@ -1,0 +1,36 @@
+\documentclass[12pt]{amsart}
+\usepackage{geometry} % see geometry.pdf on how to lay out the page. There's lots.
+\usepackage{hyperref}
+\geometry{a4paper} % or letter or a5paper or ... etc
+
+\title{Particle in a Box Simulation}
+\author{David Fleming}
+\date{October 12, 2015} % delete this line to display the current date
+
+%%% BEGIN DOCUMENT
+\begin{document}
+
+\maketitle
+
+\section{Simulation Model}
+\subsection{Initial Conditions}
+
+The particles in this code were modeled off of protons with the fundamental size and mass units being $m_p$ = 1.6726219 x 10$^{-24}$ g and $a$ = 8.775 x 10$^{-14}$ cm, respectively.  Specifically, $a$ is the charge radius which is a measure of the size of an atomic nucleus (see \href{http://physics.nist.gov/cgi-bin/cuu/Value?rp}{here for the NIST value}).  The initial velocity was computed by solving the following equation after specifying a temperature $$ \frac{3}{2} k_b T = \frac{1}{2} m v^2 $$  This velocity was decomposed into components by computing $v_x = vcos(\theta)$ and $v_y = vsin(\theta)$ where $\theta$ was randomly sampled from $[0,2 \pi]$. The initial $(x,y)$  were computed by randomly sampling from $[0,L]$ where L is the size of the box.  As per the problem description, the size of the box, L, was set such that the particle size was equal to 0.05 of L.  Finally, the time step $\Delta t$ for each particle was set to $\frac{a}{3v}$ in order to ensure that not too many particles pass through each other on a given time step.
+
+\subsection{Collision Handling}
+
+Particles, assumed to be hard spheres, were treated as collided when the following condition was met
+$$ \sqrt{(x_1 - x_2)^2 + (y_1 - y_2)^2} < 2a  $$ where $(x_i,y_i)$ is the center of the $i$th particle with radius a.  When two particles $i$ and $j$ were determined to have collided, their respective velocities were updated such that momentum and energy were conserved.  To do this, the collision between them was modeled as an elastic forced directed along the line connected the centers of the spheres.  The new velocity for particle $i$ after colliding with particle $j$ is given by
+$$ \vec{v_i'} = \vec{v_i} - \frac{2 m_j}{m_i + m_j} \frac{\langle \vec{v_i} - \vec{v_j}, \vec{x_i} - \vec{x_j}{ \rangle}}{||\vec{x_i} - \vec{x_j}||^2} (\vec{x_i} - \vec{x_j}) $$
+  
+ See \href{https://en.wikipedia.org/wiki/Elastic_collision#Two-dimensional_collision_with_two_moving_objects}{here for a description of the equation.}
+
+\subsection{Box Boundaries}
+
+In this simulation, the box walls were periodic.  If a particle was found to be outside the box at a given time step, it would be placed on the opposition end of the box.  For example, if $x > L$, $x$ was set to $x - L$.
+
+\subsection{Algorithm}
+
+The code, written in C++, was structured around two nested for loops.  During a given time step, the first loop iterated over each particle.  For each particle $i$, the then code looped over every other particle $j$ to see if the two collided.  If they collided according to the criterion given above, their velocities were updated while conserving energy and momentum.  After the loop over every other particle ended, the code checked to see if the particle was still within the bounds of the box and applied periodic boundary conditions if it was not.  At the end of each step for particle $i$, its position was updated by $\vec{x_i'} = \vec{x} + \Delta t \vec{v}$.  Throughout the execution, the initial and final positions and velocities were stored for future output into a text file.  The full code can be found at \href{https://github.com/dflemin3/boxSim}{https://github.com/dflemin3/boxSim}.
+
+\end{document}
