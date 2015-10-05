@@ -33,8 +33,8 @@ int main(int argc, char * argv[])
   for(int i = 0; i < NUM; ++i )
   {
     //Generate random position
-    x = (((double)rand()) / (RAND_MAX))*0.9*BOX_X;
-    y = (((double)rand()) / (RAND_MAX))*0.9*BOX_Y;
+    x = (((double)rand()) / (RAND_MAX))*0.95*BOX_X;
+    y = (((double)rand()) / (RAND_MAX))*0.95*BOX_Y;
 
     //Generate random velocity
     //v_x = v_0*cos(theta)
@@ -45,7 +45,6 @@ int main(int argc, char * argv[])
 
     particles[i] = (Particle(MASS,SIZE,x,y,vx,vy));
   }
-
   //Create output array
   array<array<double, 5>, NUM*2> outArr;
   for(int i = 0; i < NUM*2; i++)

@@ -134,10 +134,10 @@ void collision(Particle &a, Particle &b)
   coeff2 = dot2D(b.getVx()-a.getVx(),b.getVy()-a.getVy(),b.getX()-a.getX(),b.getY()-a.getY());
   coeff2 /= dot2D(b.getX()-a.getX(),b.getY()-a.getY(),b.getX()-a.getX(),b.getY()-a.getY());
 
-  v1x -= coeff1*(a.getX()-b.getX());
-  v2x -= coeff2*(b.getX()-a.getX());
-  v1y -= coeff1*(a.getY()-b.getY());
-  v2y -= coeff2*(b.getY()-a.getY());
+  v1x -= coeff1*(a.getX()-b.getX())*(2.0*b.getMass())/(a.getMass()+b.getMass());
+  v2x -= coeff2*(b.getX()-a.getX())*(2.0*a.getMass())/(a.getMass()+b.getMass());
+  v1y -= coeff1*(a.getY()-b.getY())*(2.0*b.getMass())/(a.getMass()+b.getMass());
+  v2y -= coeff2*(b.getY()-a.getY())*(2.0*a.getMass())/(a.getMass()+b.getMass());
 
   //Assign new velocities to particles
   a.setVx(v1x);

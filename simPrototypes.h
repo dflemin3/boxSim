@@ -13,7 +13,7 @@
 #define NUM 100 
 
 //Define number of simulation steps
-#define STEPS 1000000 
+#define STEPS 1000000000 
 
 //All units in cgs
 
