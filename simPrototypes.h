@@ -46,9 +46,10 @@ double dot2D(double x1, double y1, double x2, double y2);
 void collision(Particle &a, Particle &b);
 bool did_colide(const Particle &a, const Particle &b);
 double select_dt(const Particle &a, const double v);
-void enforce_walls(Particle &a);
+void enforce_walls(Particle &a, double dt);
 void move(Particle &a, double dt);
-void runSim(array<Particle, NUM> &particles);
+void runSim(array<Particle, NUM> &particles, array<array<double, 5>, NUM*2> &outArr);
 double compute_v(double T, double mass);
+void output(array<array<double, 5>, NUM*2> &outArr);
 
 #endif

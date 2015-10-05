@@ -56,33 +56,62 @@ double select_dt(const Particle &a)
 }
 
 /* Periodic boundary conditions
+ * If particle leaves the box, put it on
+ * the opposite side.
  */
-void enforce_walls(Particle &a)
+void enforce_walls(Particle &a, double dt)
 {
-  //Corner cases
-  if(fabs(a.getX()) > BOX_X && (a.getY() > BOX_Y || a.getY() < 0.0))
+
+  double x = a.getX();
+  double y = a.getY();
+
+  //Outside top right corner
+  if(x > BOX_X && y > BOX_Y)
   {
-    a.setVx(-1.0*a.getVx());
-    a.setVy(-1.0*a.getVy());
+    a.setX(x-BOX_X);
+    a.setY(y-BOX_Y);
     return;
   }
-
-  //Case: Particle outside of right/left wall
-  //Reverse vx
-  if(a.getX() > BOX_X || a.getX() < 0.0)
+  //Outside top left corner
+  else if(x < 0.0 && y > BOX_Y)
   {
-    a.setVx(-1.0*a.getVx());
+    a.setX(x+BOX_X);
+    a.setY(y-BOX_Y);
     return;
   }
-
-  //Case: Particle outside top/bottom wall
-  if(a.getY() > BOX_Y || a.getY() < 0.0)
+  //Outside bottom left corner
+  else if(x < 0.0 && y < 0.0)
   {
-    a.setVy(-1.0*a.getVy());
-    return;
+    a.setX(x+BOX_X);
+    a.setY(y+BOX_Y);
+  }
+  //Outside bottom right corner
+  else if(x > BOX_X && y < 0.0)
+  {
+    a.setX(x-BOX_X);
+    a.setY(y+BOX_Y);
+  }
+  //Outside right wall
+  else if(x > BOX_X)
+  {
+    a.setX(x-BOX_X);
+  }
+  //Outside left wall
+  else if(x < 0.0)
+  {
+    a.setX(x+BOX_X);
+  }
+  //Outside top wall
+  else if(y > BOX_Y)
+  {
+    a.setY(y-BOX_Y);
+  }
+  //Outside bottom wall
+  else if(y < 0.0)
+  {
+    a.setY(y+BOX_Y);
   }
 
-  //Inside box!
   return;
 }
 
@@ -142,24 +171,31 @@ double compute_v(double T, double mass)
 
 /* Run simulation
  * Iterate over particle list
- * Move particle by v*dt in x,y
  * See if it collides with any other particle
  * See if it is still inside walls
+ * Move particle by v*dt in x,y
  * Store info
  */
-void runSim(array<Particle, NUM> &particles)
+void runSim(array<Particle, NUM> &particles, array<array<double, 5>, NUM*2> &outArr)
 {
   //Assign timestep
   double dt = select_dt(particles[0]); 
+
+  //Store initial conditions
+  for(int i = 0; i < NUM; i++)
+  {
+    outArr[i][0] = 0.0;
+    outArr[i][1] = particles[i].getX();
+    outArr[i][2] = particles[i].getY();
+    outArr[i][3] = particles[i].getVx();
+    outArr[i][4] = particles[i].getVy();
+  }
 
   unsigned int time_steps = 0;
   while(time_steps < STEPS)
   {
     for(int i = 0; i < NUM; i++)
     {
-      //Move particle
-      move(particles[i],dt);
-      
       //Iterate over other particles, see if collision occurs
       for(int j = 0; j < NUM; j++)
       {
@@ -175,24 +211,36 @@ void runSim(array<Particle, NUM> &particles)
         }
       } //end of collision loop
       //Enforce wall boundaries
-      enforce_walls(particles[i]);
-
-      //Store info for distributions, output, etc
-      //TODO
+      enforce_walls(particles[i],dt);
+      
+      //Move particles
+      move(particles[i],dt);
 
       time_steps++;
     } //end of particles loop
 
   } //end of simulation while loop
 
+  //Store final conditions
+  for(int i = NUM; i < 2*NUM; i++)
+  {
+    outArr[i][0] = dt*time_steps;
+    outArr[i][1] = particles[i-NUM].getX();
+    outArr[i][2] = particles[i-NUM].getY();
+    outArr[i][3] = particles[i-NUM].getVx();
+    outArr[i][4] = particles[i-NUM].getVy();
+  }
+
   return;
 }
 
 /* Output functions */
 
-/* Dump all data to output file
+/* Dump all data to output file.
+ * Outfile contains initial conditions,
+ * final conditions.
  */
-void output(array<array<double, 5>, STEPS> &outArr)
+void output(array<array<double, 5>, NUM*2> &outArr)
 {
   FILE * handle = fopen("output.dat","w");
   if(NULL == handle)
@@ -201,9 +249,9 @@ void output(array<array<double, 5>, STEPS> &outArr)
     exit(1);
   }
 
-  for(int i = 0; i < STEPS; i++)
+  for(int i = 0; i < NUM*2; i++)
   {
-    fprintf(handle,"%lf %lf %e %e %e\n",outArr[i][0],outArr[i][1],outArr[i][2],outArr[i][3],outArr[i][4]);
+    fprintf(handle,"%e %e %e %e %e\n",outArr[i][0],outArr[i][1],outArr[i][2],outArr[i][3],outArr[i][4]);
   }
 
   return;

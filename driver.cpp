@@ -46,15 +46,21 @@ int main(int argc, char * argv[])
     particles[i] = (Particle(MASS,SIZE,x,y,vx,vy));
   }
 
+  //Create output array
+  array<array<double, 5>, NUM*2> outArr;
+  for(int i = 0; i < NUM*2; i++)
+  {
+    for(int j = 0; j < 5; j++)
+    {
+      outArr[i][j] = 0.0;
+    }
+  }
+
   //Run simulation
-  runSim(particles);
+  runSim(particles,outArr);
 
   //Output data
-  for(int i = 0; i < NUM; i++)
-  {
-    double v = sqrt(particles[i].getVx()*particles[i].getVx() + particles[i].getVy()*particles[i].getVy());
-    printf("%e\n",v);
-  }
+  output(outArr);
 
   return 0;
 }
