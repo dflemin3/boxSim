@@ -25,6 +25,7 @@ int main(int argc, char * argv[])
   double vx = 0.0;
   double vy = 0.0;
   double theta = 0.0;
+  double pressure = 0.0;
 
   //Compute particle velocity given temp
   double velocity = compute_v(TEMP,MASS);
@@ -45,6 +46,7 @@ int main(int argc, char * argv[])
 
     particles[i] = (Particle(MASS,SIZE,x,y,vx,vy));
   }
+
   //Create output array
   array<array<double, 5>, NUM*2> outArr;
   for(int i = 0; i < NUM*2; i++)
@@ -56,10 +58,11 @@ int main(int argc, char * argv[])
   }
 
   //Run simulation
-  runSim(particles,outArr);
+  runSim(particles,outArr,pressure);
 
   //Output data
   output(outArr);
+  printf("pressure: %e\n",pressure);
 
   return 0;
 }

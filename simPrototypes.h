@@ -10,10 +10,10 @@
 //so whatever.
 
 //Define particle number
-#define NUM 100 
+#define NUM 100
 
 //Define number of simulation steps
-#define STEPS 1000000000 
+#define STEPS 1000000 
 
 //All units in cgs
 
@@ -44,11 +44,12 @@ using namespace std;
 //Function prototypes
 double dot2D(double x1, double y1, double x2, double y2);
 void collision(Particle &a, Particle &b);
-bool did_colide(const Particle &a, const Particle &b);
+double did_colide(const Particle &a, const Particle &b);
+double rollback_time(double distance, const Particle &a, const Particle &b);
 double select_dt(const Particle &a, const double v);
-void enforce_walls(Particle &a, double dt);
+void enforce_walls_periodic(Particle &a, double dt, double &pressure);
 void move(Particle &a, double dt);
-void runSim(array<Particle, NUM> &particles, array<array<double, 5>, NUM*2> &outArr);
+void runSim(array<Particle, NUM> &particles, array<array<double, 5>, NUM*2> &outArr, double &pressure);
 double compute_v(double T, double mass);
 void output(array<array<double, 5>, NUM*2> &outArr);
 

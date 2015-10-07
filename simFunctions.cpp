@@ -26,21 +26,37 @@ double dot2D(double x1, double y1, double x2, double y2)
 
 /* Checks to see whether or not 2 particles collided
  * They collide if their centers are within 2 radii
- * of each other
+ * of each other.
+ * If they do colide, return square of the distance between
+ * particles a and b.
  */
-bool did_colide(const Particle &a, const Particle &b)
+double did_colide(const Particle &a, const Particle &b)
 {
   double distance = (a.getX()-b.getX())*(a.getX()-b.getX());
   distance += (a.getY()-b.getY())*(a.getY()-b.getY());
 
   if(distance < 4.0*a.getSize()*a.getSize())
   {
-    return true;
+    return distance;
   }
   else
   {
-    return false;
+    return -1;
   }
+}
+
+/* Compute how long ago, dt, particles collided
+ * given the current distance between their centers
+ * of mass when they were determined to have collided
+ * see above
+ */
+double rollback_time(double distance, const Particle &a, const Particle &b)
+{
+  //Compute relative velocity
+  double va = sqrt(a.getVx()*a.getVx() + a.getVy()*a.getVy());
+//  double vb = sqrt(b.getVx()*b.getVx() + b.getVy()*b.getVy());
+  
+  return (2.0*a.getSize()-distance)/fabs(va);
 }
 
 /* Determine a good timestep
@@ -59,7 +75,7 @@ double select_dt(const Particle &a)
  * If particle leaves the box, put it on
  * the opposite side.
  */
-void enforce_walls(Particle &a, double dt)
+void enforce_walls_periodic(Particle &a, double dt, double &pressure)
 {
 
   double x = a.getX();
@@ -92,10 +108,14 @@ void enforce_walls(Particle &a, double dt)
     a.setY(y+BOX_Y);
   }
   //Outside right wall
+  //PRESSURE WALL
   else if(x > BOX_X)
   {
     a.setX(x-BOX_X);
+    double p = 2.0*a.getMass()*a.getVx();
+    pressure += fabs(p)/(dt*SIZE);
   }
+  
   //Outside left wall
   else if(x < 0.0)
   {
@@ -176,8 +196,12 @@ double compute_v(double T, double mass)
  * Move particle by v*dt in x,y
  * Store info
  */
-void runSim(array<Particle, NUM> &particles, array<array<double, 5>, NUM*2> &outArr)
+void runSim(array<Particle, NUM> &particles, array<array<double, 5>, NUM*2> &outArr, double &pressure)
 {
+  //Define required variables
+  double distance = 0.0;
+  double dt_rb = 0.0;
+  
   //Assign timestep
   double dt = select_dt(particles[0]); 
 
@@ -203,15 +227,24 @@ void runSim(array<Particle, NUM> &particles, array<array<double, 5>, NUM*2> &out
         if(i != j)
         {
           //If they actually collided
-          if(did_colide(particles[i],particles[j]))
+          distance = did_colide(particles[i],particles[j]);
+          if(distance > 0.0)
           {
+            dt_rb = rollback_time(sqrt(distance),particles[i],particles[j]);
+            move(particles[i],-dt_rb);
+            move(particles[j],-dt_rb);
+
             //Change velocity while energy, momentum conserved
             collision(particles[i],particles[j]);
+            
+            move(particles[i],dt_rb);
+            move(particles[j],dt_rb);
+          
           }
         }
       } //end of collision loop
       //Enforce wall boundaries
-      enforce_walls(particles[i],dt);
+      enforce_walls_periodic(particles[i],dt,pressure);
       
       //Move particles
       move(particles[i],dt);
