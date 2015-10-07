@@ -1,4 +1,4 @@
-/* David Fleming Sept 2015
+/* David Fleming Oct 2015
  * Driver file for particles
  * in a box simulation
  */
@@ -11,7 +11,7 @@ int main(int argc, char * argv[])
   //Seed PRNG with current time
   srand(time(NULL));
 
-  //Initialize list of particles
+  //Initialize required variables
   double x = 0.0;
   double y = 0.0;
   double vx = 0.0;
@@ -26,13 +26,11 @@ int main(int argc, char * argv[])
   std::array<Particle, NUM> particles;
   for(int i = 0; i < NUM; i++)
   {
-    //Generate random position
+    //Generate random position (away from box edges initially)
     x = (((double)rand()) / (RAND_MAX))*0.95*BOX_X;
     y = (((double)rand()) / (RAND_MAX))*0.95*BOX_Y;
 
     //Generate random velocity
-    //v_x = v_0*cos(theta)
-    //v_y = v_0*sin(theta)
     theta = (((double)rand()) / (RAND_MAX))*2.0*PI;
     vx = velocity*cos(theta);
     vy = velocity*sin(theta);
@@ -61,7 +59,7 @@ int main(int argc, char * argv[])
 
   //Output data
   output(outArr);
-  //printf("pressure: %e\n",pressure);
+  printf("pressure: %e\n",vec_mean(pressure));
 
   return 0;
 }

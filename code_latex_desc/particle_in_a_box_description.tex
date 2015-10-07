@@ -38,11 +38,11 @@ In this simulation, the box walls were periodic.  If a particle was found to be 
 
 \subsection{Pressure}
 
-The pressure the gas exerts on the walls was calculated each time a particle passed through the right wall.  In two dimensions, pressure is given by force per length where $F = \frac{\Delta p}{\Delta t}$.  Therefore, the particle a particle exerts on the right wall assuming a perfectly elastic collision is
+The pressure the gas exerts on the walls was calculated each time a particle passed through the right wall.  In two dimensions, pressure is given by force per length where $F = \frac{\Delta p}{\Delta t}$.  The average force exerted on the right wall by a particle is $F = \frac{2 m v_x}{\Delta t}$ where $\Delta t = \frac{l}{v_x}$ since for periodic boundary conditions, it takes the particle on average that much time to interact with the right wall again.  To account for motion in both the x and y directions, note that $\bar{v_x^2} + \bar{v_y^2} = \bar{v^2}$ where $\bar{v_x^2} = \bar{v_y^2}$ so $\bar{v_x^2} = \frac{1}{2} \bar{v^2}$ Therefore, the pressure a particle exerts on the walls assuming a perfectly elastic collision is
 
-$$ P =  \frac{2 m_p v_x}{l \Delta t }   $$
+$$ P =  \frac{m_p v^2}{l^2}   $$
 
-for a wall of length l and where the interaction time $\Delta t$ was considered to be the simulation time step.
+Each pressure event is recorded in a vector whose average is found and outputted at the end of the simulation.  In general, the simulated pressure is within a factor of a few of $P = nkT$ which is a fine result given the periodic boundary conditions contributing a factor of 2, the low resolution, and the intrinsic scatter in the initial conditions.
 
 \subsection{Algorithm}
 

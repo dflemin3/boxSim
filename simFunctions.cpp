@@ -14,6 +14,18 @@ double dot2D(double x1, double y1, double x2, double y2)
   return x1*x2 + y1*y2;
 }
 
+/* Compute the mean of a vector of doubles
+ */
+double vec_mean(std::vector<double> &vec)
+{
+  double sum = 0.0;
+  for(std::vector<double>::iterator it = vec.begin(); it != vec.end(); ++it)
+  {
+    sum += (*it);
+  }
+    return sum/vec.size();
+}
+
 /* Functions that deal with particle motions, collisions */
 
 /* Checks to see whether or not 2 particles collided
@@ -105,8 +117,8 @@ void enforce_walls_periodic(Particle &a, double dt,std::vector<double> &pressure
   else if(x > BOX_X)
   {
     a.setX(x-BOX_X);
-    double p = 2.0*a.getMass()*a.getVx();
-    pressure.push_back(fabs(p)/(dt*SIZE));
+    double v_2 = a.getVx()*a.getVx() + a.getVy()*a.getVy();
+    pressure.push_back(NUM*a.getMass()*v_2/(BOX_X*BOX_Y));
   }
   
   //Outside left wall

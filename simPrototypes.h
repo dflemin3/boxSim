@@ -46,6 +46,7 @@
 
 //Function prototypes
 double dot2D(double x1, double y1, double x2, double y2);
+double vec_mean(std::vector<double> &vec);
 void collision(Particle &a, Particle &b);
 double did_colide(const Particle &a, const Particle &b);
 double rollback_time(double distance, const Particle &a, const Particle &b);
