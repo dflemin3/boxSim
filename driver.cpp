@@ -5,14 +5,6 @@
 
 #include "particle.h"
 #include "simPrototypes.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <time.h>
-#include <iostream>
-#include <array>
-#include <math.h>
-
-using namespace std;
 
 int main(int argc, char * argv[])
 {
@@ -25,13 +17,13 @@ int main(int argc, char * argv[])
   double vx = 0.0;
   double vy = 0.0;
   double theta = 0.0;
-  double pressure = 0.0;
+  std::vector<double> pressure;
 
   //Compute particle velocity given temp
   double velocity = compute_v(TEMP,MASS);
 
   //Create array of particles
-  array<Particle, NUM> particles;
+  std::array<Particle, NUM> particles;
   for(int i = 0; i < NUM; i++)
   {
     //Generate random position
@@ -55,7 +47,7 @@ int main(int argc, char * argv[])
       
   }
   //Create output array
-  array<array<double, 5>, NUM*2> outArr;
+  std::array<std::array<double, 5>, NUM*2> outArr;
   for(int i = 0; i < NUM*2; i++)
   {
     for(int j = 0; j < 5; j++)
@@ -69,7 +61,7 @@ int main(int argc, char * argv[])
 
   //Output data
   output(outArr);
-  printf("pressure: %e\n",pressure);
+  //printf("pressure: %e\n",pressure);
 
   return 0;
 }

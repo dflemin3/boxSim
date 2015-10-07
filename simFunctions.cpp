@@ -5,14 +5,6 @@
 
 #include "particle.h"
 #include "simPrototypes.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <time.h>
-#include <iostream>
-#include <array>
-#include <math.h>
-
-using namespace std;
 
 /* Define useful math functions */
 
@@ -75,7 +67,7 @@ double select_dt(const Particle &a)
  * If particle leaves the box, put it on
  * the opposite side.
  */
-void enforce_walls_periodic(Particle &a, double dt, double &pressure)
+void enforce_walls_periodic(Particle &a, double dt,std::vector<double> &pressure)
 {
 
   double x = a.getX();
@@ -109,11 +101,12 @@ void enforce_walls_periodic(Particle &a, double dt, double &pressure)
   }
   //Outside right wall
   //PRESSURE WALL
+  //Append pressure exerted by particle
   else if(x > BOX_X)
   {
     a.setX(x-BOX_X);
     double p = 2.0*a.getMass()*a.getVx();
-    pressure += fabs(p)/(dt*SIZE);
+    pressure.push_back(fabs(p)/(dt*SIZE));
   }
   
   //Outside left wall
@@ -196,7 +189,7 @@ double compute_v(double T, double mass)
  * Move particle by v*dt in x,y
  * Store info
  */
-void runSim(array<Particle, NUM> &particles, array<array<double, 5>, NUM*2> &outArr, double &pressure)
+void runSim(std::array<Particle, NUM> &particles, std::array<std::array<double, 5>, NUM*2> &outArr,std::vector<double> &pressure)
 {
   //Define required variables
   double distance = 0.0;
@@ -273,7 +266,7 @@ void runSim(array<Particle, NUM> &particles, array<array<double, 5>, NUM*2> &out
  * Outfile contains initial conditions,
  * final conditions.
  */
-void output(array<array<double, 5>, NUM*2> &outArr)
+void output(std::array<std::array<double, 5>, NUM*2> &outArr)
 {
   FILE * handle = fopen("output.dat","w");
   if(NULL == handle)

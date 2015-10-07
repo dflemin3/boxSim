@@ -20,17 +20,34 @@ The particles in this code were modeled off of protons with the fundamental size
 \subsection{Collision Handling}
 
 Particles, assumed to be hard spheres, were treated as collided when the following condition was met
-$$ \sqrt{(x_1 - x_2)^2 + (y_1 - y_2)^2} < 2a  $$ where $(x_i,y_i)$ is the center of the $i$th particle with radius a.  When two particles $i$ and $j$ were determined to have collided, their respective velocities were updated such that momentum and energy were conserved.  To do this, the collision between them was modeled as an elastic forced directed along the line connected the centers of the spheres.  The new velocity for particle $i$ after colliding with particle $j$ is given by
+
+$$ \sqrt{(x_1 - x_2)^2 + (y_1 - y_2)^2} < 2a  $$ 
+
+where $(x_i,y_i)$ is the center of the $i$th particle with radius a.  When this condition held, the two particles trajectories were integrated in reverse by $\delta t$ until just before they collide, that is when the distance between their centers of mass was $2a$.  The time step $\delta t$ is given by 
+
+$$\frac{2a - \sqrt{(x_1 - x_2)^2 + (y_1 - y_2)^2}}{v_{rel}}  $$ 
+
+where $v_{rel}$ is the relative velocity between particles $i$ and $j$ and $(x_k,y_k)$ is is the center of the $kth$ particle.  Now the particles collide and their respective velocities are updated such that momentum and energy are conserved.  To do this, the collision between them was modeled as an elastic forced directed along the line connected the centers of the spheres.  The new velocity for particle $i$ after colliding with particle $j$ is given by
 $$ \vec{v_i'} = \vec{v_i} - \frac{2 m_j}{m_i + m_j} \frac{\langle \vec{v_i} - \vec{v_j}, \vec{x_i} - \vec{x_j}{ \rangle}}{||\vec{x_i} - \vec{x_j}||^2} (\vec{x_i} - \vec{x_j}) $$
   
- See \href{https://en.wikipedia.org/wiki/Elastic_collision#Two-dimensional_collision_with_two_moving_objects}{here for a description of the equation.}
-
+ See \href{https://en.wikipedia.org/wiki/Elastic_collision#Two-dimensional_collision_with_two_moving_objects}{here for a description of the equation.}   After the collision, the particles were then advanced forward by $\delta t$ to keep them on the same time as the rest of the particles.
+ 
 \subsection{Box Boundaries}
 
-In this simulation, the box walls were periodic.  If a particle was found to be outside the box at a given time step, it would be placed on the opposition end of the box.  For example, if $x > L$, $x$ was set to $x - L$.
+In this simulation, the box walls were periodic.  If a particle was found to be outside the box at a given time step, it would be placed on the opposition end of the box.  For example, if $x > L$, $x$ was set to $x - L$.  
+
+\subsection{Pressure}
+
+The pressure the gas exerts on the walls was calculated each time a particle passed through the right wall.  In two dimensions, pressure is given by force per length where $F = \frac{\Delta p}{\Delta t}$.  Therefore, the particle a particle exerts on the right wall assuming a perfectly elastic collision is
+
+$$ P =  \frac{2 m_p v_x}{l \Delta t }   $$
+
+for a wall of length l and where the interaction time $\Delta t$ was considered to be the simulation time step.
 
 \subsection{Algorithm}
 
 The code, written in C++, was structured around two nested for loops.  During a given time step, the first loop iterated over each particle.  For each particle $i$, the then code looped over every other particle $j$ to see if the two collided.  If they collided according to the criterion given above, their velocities were updated while conserving energy and momentum.  After the loop over every other particle ended, the code checked to see if the particle was still within the bounds of the box and applied periodic boundary conditions if it was not.  At the end of each step for particle $i$, its position was updated by $\vec{x_i'} = \vec{x} + \Delta t \vec{v}$.  Throughout the execution, the initial and final positions and velocities were stored for future output into a text file.  The full code can be found at \href{https://github.com/dflemin3/boxSim}{https://github.com/dflemin3/boxSim}.
+
+\section{Simulation Velocity and Energy Distributions}
 
 \end{document}

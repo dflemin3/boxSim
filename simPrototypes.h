@@ -38,8 +38,11 @@
 
 #include "particle.h"
 #include <array>
-
-using namespace std;
+#include <vector>
+#include <math.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
 
 //Function prototypes
 double dot2D(double x1, double y1, double x2, double y2);
@@ -47,10 +50,10 @@ void collision(Particle &a, Particle &b);
 double did_colide(const Particle &a, const Particle &b);
 double rollback_time(double distance, const Particle &a, const Particle &b);
 double select_dt(const Particle &a, const double v);
-void enforce_walls_periodic(Particle &a, double dt, double &pressure);
+void enforce_walls_periodic(Particle &a, double dt, std::vector<double> &pressure);
 void move(Particle &a, double dt);
-void runSim(array<Particle, NUM> &particles, array<array<double, 5>, NUM*2> &outArr, double &pressure);
+void runSim(std::array<Particle, NUM> &particles, std::array<std::array<double, 5>, NUM*2> &outArr,std::vector<double> &pressure);
 double compute_v(double T, double mass);
-void output(array<array<double, 5>, NUM*2> &outArr);
+void output(std::array<std::array<double, 5>, NUM*2> &outArr);
 
 #endif
