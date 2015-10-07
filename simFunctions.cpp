@@ -118,7 +118,7 @@ void enforce_walls_periodic(Particle &a, double dt,std::vector<double> &pressure
   {
     a.setX(x-BOX_X);
     double v_2 = a.getVx()*a.getVx() + a.getVy()*a.getVy();
-    pressure.push_back(NUM*a.getMass()*v_2/(BOX_X*BOX_Y));
+    pressure.push_back(0.5*NUM*a.getMass()*v_2/(BOX_X*BOX_Y));
   }
   
   //Outside left wall
