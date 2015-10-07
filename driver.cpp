@@ -30,8 +30,9 @@ int main(int argc, char * argv[])
   //Compute particle velocity given temp
   double velocity = compute_v(TEMP,MASS);
 
+  //Create array of particles
   array<Particle, NUM> particles;
-  for(int i = 0; i < NUM; ++i )
+  for(int i = 0; i < NUM; i++)
   {
     //Generate random position
     x = (((double)rand()) / (RAND_MAX))*0.95*BOX_X;
@@ -44,9 +45,15 @@ int main(int argc, char * argv[])
     vx = velocity*cos(theta);
     vy = velocity*sin(theta);
 
-    particles[i] = (Particle(MASS,SIZE,x,y,vx,vy));
+    //Assign particle properties
+    particles[i].setMass(MASS);
+    particles[i].setSize(SIZE);
+    particles[i].setX(x);
+    particles[i].setY(y);
+    particles[i].setVx(vx);
+    particles[i].setVy(vy);
+      
   }
-
   //Create output array
   array<array<double, 5>, NUM*2> outArr;
   for(int i = 0; i < NUM*2; i++)
