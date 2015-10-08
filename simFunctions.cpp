@@ -26,6 +26,19 @@ double vec_mean(std::vector<double> &vec)
     return sum/vec.size();
 }
 
+/* Compute the mean velocity of all the particles
+ */
+double compute_mean_vel(std::array<Particle, NUM> &p)
+{
+  double mean_vel = 0.0;
+  for(unsigned int i = 0; i < p.size(); i++)
+  {
+    mean_vel += sqrt(p[i].getVx()*p[i].getVx() + p[i].getVy()*p[i].getVy());
+  }
+
+  return mean_vel/p.size();
+}
+
 /* Functions that deal with particle motions, collisions */
 
 /* Checks to see whether or not 2 particles collided
@@ -206,7 +219,8 @@ void runSim(std::array<Particle, NUM> &particles, std::array<std::array<double, 
   //Define required variables
   double distance = 0.0;
   double dt_rb = 0.0;
-  
+  std::vector<double> mean_v;
+
   //Assign timestep
   double dt = select_dt(particles[0]); 
 
@@ -223,6 +237,8 @@ void runSim(std::array<Particle, NUM> &particles, std::array<std::array<double, 
   unsigned int time_steps = 0;
   while(time_steps < STEPS)
   {
+    //Compute mean velocity of particles
+    mean_v.push_back(compute_mean_vel(particles));
     for(int i = 0; i < NUM; i++)
     {
       //Iterate over other particles, see if collision occurs
@@ -244,7 +260,6 @@ void runSim(std::array<Particle, NUM> &particles, std::array<std::array<double, 
             
             move(particles[i],dt_rb);
             move(particles[j],dt_rb);
-          
           }
         }
       } //end of collision loop
@@ -254,9 +269,10 @@ void runSim(std::array<Particle, NUM> &particles, std::array<std::array<double, 
       //Move particles
       move(particles[i],dt);
 
-      time_steps++;
     } //end of particles loop
 
+    //Increment time steps
+    time_steps++;
   } //end of simulation while loop
 
   //Store final conditions
@@ -267,6 +283,18 @@ void runSim(std::array<Particle, NUM> &particles, std::array<std::array<double, 
     outArr[i][2] = particles[i-NUM].getY();
     outArr[i][3] = particles[i-NUM].getVx();
     outArr[i][4] = particles[i-NUM].getVy();
+  }
+
+  //Output mean velocity at each timestep to file
+  FILE * handle = fopen("mean_v.dat","w");
+  if(NULL == handle)
+  {
+    fprintf(stderr,"Error opening mean_v.dat.\n");
+    exit(1);
+  }
+  for(unsigned int i = 0; i < mean_v.size(); i++)
+  {
+    fprintf(handle,"%e %e\n",dt*i,mean_v[i]);
   }
 
   return;

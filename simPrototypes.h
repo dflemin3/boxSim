@@ -13,7 +13,7 @@
 #define NUM 100
 
 //Define number of simulation steps
-#define STEPS 1000000 
+#define STEPS 100 
 
 //All units in cgs
 
@@ -29,8 +29,8 @@
 //Define box dimensions (cm/r_proton)
 //Box goes from x: [0,BOX_X]
 //              y: [0,BOY_Y]
-#define BOX_X 50.0*SIZE
-#define BOX_Y 50.0*SIZE
+#define BOX_X 100.0*SIZE
+#define BOX_Y 100.0*SIZE
 
 //Constants
 #define PI 3.14159265359
@@ -56,5 +56,6 @@ void move(Particle &a, double dt);
 void runSim(std::array<Particle, NUM> &particles, std::array<std::array<double, 5>, NUM*2> &outArr,std::vector<double> &pressure);
 double compute_v(double T, double mass);
 void output(std::array<std::array<double, 5>, NUM*2> &outArr);
+double compute_mean_vel(std::array<Particle, NUM> &p);
 
 #endif

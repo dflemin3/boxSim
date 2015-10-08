@@ -19,4 +19,4 @@ simFunctions.o: simFunctions.cpp $(INCFLAGS)
 		g++ $(COMPFLAGS) simFunctions.cpp
 
 clean:
-		rm -f *.o boxSim
+		rm -f *.o *.dat boxSim
