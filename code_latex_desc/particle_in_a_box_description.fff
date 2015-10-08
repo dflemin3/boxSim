@@ -1,0 +1,42 @@
+\begin{figure}[h!]
+  \centering
+    \includegraphics[width=1.0\textwidth]{pos_dist.eps}
+    \caption{Initial and final particle positions.}
+\end{figure}
+\efloatseparator
+ 
+\begin{figure}[h!]
+  \centering
+    \includegraphics[width=1.0\textwidth]{vel_dist.eps}
+    \caption{Simulated velocity distribution compared with theory.}
+\end{figure}
+\efloatseparator
+ 
+\begin{figure}[h!]
+  \centering
+    \includegraphics[width=1.0\textwidth]{energy_dist.eps}
+    \caption{Simulated energy distribution compared with theory.}
+\end{figure}
+\efloatseparator
+ 
+\begin{figure}[h!]
+  \centering
+    \includegraphics[width=1.0\textwidth]{vel_comp.eps}
+    \caption{Comparison of the velocity distributions for all particle masses being $m_p$ (green) and for half being $10m_p$ (blue).}
+\end{figure}
+\efloatseparator
+ 
+\begin{figure}[h!]
+  \centering
+    \includegraphics[width=1.0\textwidth]{energy_comp.eps}
+    \caption{Comparison of the energy distributions for all particle masses being $m_p$ (green) and for half being $10m_p$ (blue).}
+\end{figure}
+\efloatseparator
+ 
+\begin{figure}[h!]
+  \centering
+    \includegraphics[width=1.0\textwidth]{pv_nrt.eps}
+    \caption{Comparison of simulation results with the Ideal Gas Law.}
+\end{figure}
+\efloatseparator
+ 

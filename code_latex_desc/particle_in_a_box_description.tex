@@ -2,6 +2,7 @@
 \usepackage{geometry} % see geometry.pdf on how to lay out the page. There's lots.
 \usepackage{hyperref}
 \usepackage{graphicx}
+\usepackage[nomarkers,figuresonly]{endfloat}
 \geometry{a4paper} % or letter or a5paper or ... etc
 
 \title{Particle in a Box Simulation}
@@ -12,6 +13,8 @@
 \begin{document}
 
 \maketitle
+
+%%% QUESTION 1 %%%
 
 \section{Simulation Model}
 \subsection{Initial Conditions}
@@ -49,6 +52,17 @@ Each pressure event is recorded in a vector whose average is found and outputted
 
 The code, written in C++, was structured around two nested for loops.  During a given time step, the first loop iterated over each particle.  For each particle $i$, the then code looped over every other particle $j$ to see if the two collided.  If they collided according to the criterion given above, their velocities were updated while conserving energy and momentum.  After the loop over every other particle ended, the code checked to see if the particle was still within the bounds of the box and applied periodic boundary conditions if it was not.  At the end of each step for particle $i$, its position was updated by $\vec{x_i'} = \vec{x} + \Delta t \vec{v}$.  Throughout the execution, the initial and final positions and velocities were stored for future output into a text file.  The full code can be found at \href{https://github.com/dflemin3/boxSim}{https://github.com/dflemin3/boxSim}.
 
+\subsection{Simulation Evolution}
+
+Ten simulations were ran with 100 particles.  The radius of each particle was $2 \%$ of the lengths of the walls and evolved for a sufficiently long time such that the velocity distribution converged to a steady-state solution in which the initial velocity distribution has been forgotten.  Figure 1 displays the initial and final particle positions.  The figure demonstrates that all the particles do indeed move around while remaining bounded by the box.  Figure 2 shows the initial and final velocity distributions and demonstrates how it converged into a Maxwellian (discussed below).
+\begin{figure}[h!]
+  \centering
+    \includegraphics[width=1.0\textwidth]{pos_dist.eps}
+    \caption{Initial and final particle positions.}
+\end{figure}
+
+%%%QUESTION 2 %%%
+
 \section{Simulation Velocity and Energy Distributions}
 
 \subsection{a}
@@ -65,7 +79,7 @@ respectively.
 
 \subsection{b}
 
-After running 10 simulations for a sufficient length of time, the velocity and energy distributions reached a steady state.  For both velocity $v$ and energy $E$, the average histogram of the ten simulations for $v$ and $E$ at the initial and final states of the simulation are shown in Figures 1 and 2 over plotted with the theoretical expectation discussed above in $2.a$.  As shown in the figures, there is good agreement between the simulation results and theory.
+After running 10 simulations for a sufficient length of time, the velocity and energy distributions reached a steady state.  For both velocity $v$ and energy $E$, the average histogram of the ten simulations for $v$ and $E$ at the initial and final states of the simulation are shown in Figures 2 and 3 over plotted with the theoretical expectation discussed above in $2.a$.  As shown in the figures, there is good agreement between the simulation results and theory.
 
 %Show Vel Dist
 \begin{figure}[h!]
@@ -83,7 +97,7 @@ After running 10 simulations for a sufficient length of time, the velocity and e
 
 \subsection{c}
 
-For one set of ten simulations, I made half of the particle masses 10 times larger.  The average histograms of $v$ and $E$ of the simulations are shown in Figures 3 and 4.  For the velocity distributions, it appears like the velocity distribution for the simulation with half of the particles being more massive is composed of two Maxwellians with a lower peak velocity than the standard simulation's distribution.  The mass dependence in $\frac{dN}{dv}$ causes a distribution to become tighter and centered around lower velocity values at a given temperature.  Since the temperature of the gas determines its energy and $E = \frac{1}{2}mv^2$, the more massive the particle, the slower it is.  Therefore it makes sense that the simulation with a higher average particle mass would have a tighter peak and at a lower velocity as is observed.  The two Maxwellian bumps in the distribution is likely due to the more massive particles kicking the lower mass particles to high velocity giving rise to the higher velocity bump.  For the energy distribution shown in Figure 4, we see that the two simulations are effectively identical.  This is because $\frac{dN}{dE}$ has no mass dependence as the temperature of the gas specifies the shape of the distribution.  The results in more massive particles moving more slowly and lighter particles moving faster at the same temperature to produce the same distribution shape.
+For one set of ten simulations, I made half of the particle masses 10 times larger.  The average histograms of $v$ and $E$ of the simulations are shown in Figures 4 and 5.  For the velocity distributions, it appears like the velocity distribution for the simulation with half of the particles being more massive is composed of two Maxwellians with a lower peak velocity than the standard simulation's distribution.  The mass dependence in $\frac{dN}{dv}$ causes a distribution to become tighter and centered around lower velocity values at a given temperature.  Since the temperature of the gas determines its energy and $E = \frac{1}{2}mv^2$, the more massive the particle, the slower it is.  Therefore it makes sense that the simulation with a higher average particle mass would have a tighter peak and at a lower velocity as is observed.  The two Maxwellian bumps in the distribution is likely due to the more massive particles kicking the lower mass particles to high velocity giving rise to the higher velocity bump.  For the energy distribution shown in Figure 5, we see that the two simulations are effectively identical.  This is because $\frac{dN}{dE}$ has no mass dependence as the temperature of the gas specifies the shape of the distribution.  The results in more massive particles moving more slowly and lighter particles moving faster at the same temperature to produce the same distribution shape.
 
 %Show comp Vel Dist
 \begin{figure}[h!]
@@ -97,6 +111,27 @@ For one set of ten simulations, I made half of the particle masses 10 times larg
   \centering
     \includegraphics[width=1.0\textwidth]{energy_comp.eps}
     \caption{Comparison of the energy distributions for all particle masses being $m_p$ (green) and for half being $10m_p$ (blue).}
+\end{figure}
+
+%%% QUESTION 3 %%%
+
+\section{Relaxation Timescale}
+
+
+
+
+
+%%% QUESTION 4 %%%
+
+\section{Ideal Gas Law}
+
+The simulation ran for several values of both number density $n$ and temperature $T$ to see if the ideal gas law $P=nk_bT$ held.  For each $(n,T)$ pair, the simulation outputted the pressure computed by determining the average force on a wall due to incident particles (for a more complete discussion see the "Pressure" section).  These values were then plotted vs. the ideal gas law in Figure 6 to see if it indeed held for the simulations.  Within some small random scatter due to initial conditions, the results of the simulation matched the ideal gas law quite well within a factor of 2 or so.
+
+%Show P=nkT
+\begin{figure}[h!]
+  \centering
+    \includegraphics[width=1.0\textwidth]{pv_nrt.eps}
+    \caption{Comparison of simulation results with the Ideal Gas Law.}
 \end{figure}
 
 
