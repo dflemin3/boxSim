@@ -37,16 +37,22 @@ int main(int argc, char * argv[])
 
     //Assign particle properties
     particles[i].setMass(MASS);
-    particles[i].setSize(SIZE);
+    particles[i].setSize(PART_SIZE);
     particles[i].setX(x);
     particles[i].setY(y);
     particles[i].setVx(vx);
     particles[i].setVy(vy);
       
   }
-  //Create output array
-  std::array<std::array<double, 5>, NUM*2> outArr;
-  for(int i = 0; i < NUM*2; i++)
+  //Create output array with rows = num timesteps
+  if(NUM*STEPS*5*8*1.0e-6 > 8)
+  {
+    fprintf(stderr,"Exceeded size of stack.\n");
+    exit(1);
+  }
+  
+  std::array<std::array<double, 5>, NUM*STEPS> outArr;
+  for(int i = 0; i < NUM*STEPS; i++)
   {
     for(int j = 0; j < 5; j++)
     {

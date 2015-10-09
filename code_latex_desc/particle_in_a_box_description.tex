@@ -122,8 +122,11 @@ For one set of ten simulations, I made half of the particle masses 10 times larg
 
 \subsection{a}
 
-...
+To numerically determine when the system has relaxed, at each time step $i$, the simulated velocity distribution is compared to the theoretical Maxwell distribution at the given temperature.  The system is considered relaxed once the simulated velocity distribution first comes near to the shape of the Maxwell distribution.  This condition is defined to occur when the following condition first occurs
 
+$$ \Sigma_j(\frac{(sim_{ij} - maxwell_j)^2}{maxwell_j}) < \epsilon$$
+\newline
+where $sim_i$ is the simulated velocity distribution at the $ith$ step summed over all $j$ velocity bins, $maxwell$ is the Maxwell distribution, and $\epsilon$ is the tolerance and is set to 0.01.  As a sanity check, the velocity distribution $sim_i$ that first satisfies this criterion is plotted for visual confirmation.  
 
 \subsection{b}
 
@@ -133,7 +136,7 @@ $$ \tau = \frac{1}{2anv} $$
 \newline
 for particle size $a$, number density $n$ and initial particle velocity $v$.
 \newline
-\par This formula, derived on an attached sheet (see Fleming 2), stems from the assumption that the system approaches equilibrium after each particle has on averaged collided once.  This occurs after $\tau = \frac{\lambda}{v}$ where $\lambda = \frac{1}{n\sigma}$ is the mean free path of the particle and $n$ and $\sigma$ are the number density of the gas and particle cross section, respectively.  After $\tau$ has elapsed, a sufficient amount of energy and momentum has been redistributed throughout the system such that the particle's velocity and energy distributions approach Maxwellian.
+\par This formula, derived on an attached sheet (see Fleming 2), stems from the assumption that the system approaches equilibrium after each particle has on averaged collided once.  This occurs after $\tau = \frac{\lambda}{v}$ where $\lambda = \frac{1}{n\sigma}$ is the mean free path of the particle and $n$ and $\sigma$ are the number density of the gas and particle cross section, respectively.  After $\tau$ has elapsed, a sufficient amount of energy and momentum has been redistributed throughout the system such that the particle's velocity and energy distributions approach Maxwellian.  
 
 %%% QUESTION 4 %%%
 

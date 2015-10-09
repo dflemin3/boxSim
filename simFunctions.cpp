@@ -71,7 +71,6 @@ double rollback_time(double distance, const Particle &a, const Particle &b)
 {
   //Compute relative velocity
   double va = sqrt(a.getVx()*a.getVx() + a.getVy()*a.getVy());
-//  double vb = sqrt(b.getVx()*b.getVx() + b.getVy()*b.getVy());
   
   return (2.0*a.getSize()-distance)/fabs(va);
 }
@@ -214,31 +213,31 @@ double compute_v(double T, double mass)
  * Move particle by v*dt in x,y
  * Store info
  */
-void runSim(std::array<Particle, NUM> &particles, std::array<std::array<double, 5>, NUM*2> &outArr,std::vector<double> &pressure)
+void runSim(std::array<Particle, NUM> &particles, std::array<std::array<double, 5>, NUM*STEPS> &outArr,std::vector<double> &pressure)
 {
   //Define required variables
   double distance = 0.0;
   double dt_rb = 0.0;
-  std::vector<double> mean_v;
 
   //Assign timestep
   double dt = select_dt(particles[0]); 
 
-  //Store initial conditions
-  for(int i = 0; i < NUM; i++)
-  {
-    outArr[i][0] = 0.0;
-    outArr[i][1] = particles[i].getX();
-    outArr[i][2] = particles[i].getY();
-    outArr[i][3] = particles[i].getVx();
-    outArr[i][4] = particles[i].getVy();
-  }
-
   unsigned int time_steps = 0;
   while(time_steps < STEPS)
   {
+    //Store particle states ever NUM steps
+    int index = 0;
+    for(int k = 0; k < NUM; k++)
+    {
+      index = NUM*time_steps + k;
+      outArr[index][0] = dt*time_steps;
+      outArr[index][1] = particles[k].getX();
+      outArr[index][2] = particles[k].getY();
+      outArr[index][3] = particles[k].getVx();
+      outArr[index][4] = particles[k].getVy();
+    }
+
     //Compute mean velocity of particles
-    mean_v.push_back(compute_mean_vel(particles));
     for(int i = 0; i < NUM; i++)
     {
       //Iterate over other particles, see if collision occurs
@@ -275,28 +274,6 @@ void runSim(std::array<Particle, NUM> &particles, std::array<std::array<double, 
     time_steps++;
   } //end of simulation while loop
 
-  //Store final conditions
-  for(int i = NUM; i < 2*NUM; i++)
-  {
-    outArr[i][0] = dt*time_steps;
-    outArr[i][1] = particles[i-NUM].getX();
-    outArr[i][2] = particles[i-NUM].getY();
-    outArr[i][3] = particles[i-NUM].getVx();
-    outArr[i][4] = particles[i-NUM].getVy();
-  }
-
-  //Output mean velocity at each timestep to file
-  FILE * handle = fopen("mean_v.dat","w");
-  if(NULL == handle)
-  {
-    fprintf(stderr,"Error opening mean_v.dat.\n");
-    exit(1);
-  }
-  for(unsigned int i = 0; i < mean_v.size(); i++)
-  {
-    fprintf(handle,"%e %e\n",dt*i,mean_v[i]);
-  }
-
   return;
 }
 
@@ -306,7 +283,7 @@ void runSim(std::array<Particle, NUM> &particles, std::array<std::array<double, 
  * Outfile contains initial conditions,
  * final conditions.
  */
-void output(std::array<std::array<double, 5>, NUM*2> &outArr)
+void output(std::array<std::array<double, 5>, NUM*STEPS> &outArr)
 {
   FILE * handle = fopen("output.dat","w");
   if(NULL == handle)
@@ -315,7 +292,7 @@ void output(std::array<std::array<double, 5>, NUM*2> &outArr)
     exit(1);
   }
 
-  for(int i = 0; i < NUM*2; i++)
+  for(int i = 0; i < NUM*STEPS; i++)
   {
     fprintf(handle,"%e %e %e %e %e\n",outArr[i][0],outArr[i][1],outArr[i][2],outArr[i][3],outArr[i][4]);
   }
