@@ -35,6 +35,13 @@
  
 \begin{figure}[h!]
   \centering
+    \includegraphics[width=1.0\textwidth]{tau.eps}
+    \caption{Comparison of numerical and theoretical relaxation times.}
+\end{figure}
+\efloatseparator
+ 
+\begin{figure}[h!]
+  \centering
     \includegraphics[width=1.0\textwidth]{pv_nrt.eps}
     \caption{Comparison of simulation results with the Ideal Gas Law.}
 \end{figure}

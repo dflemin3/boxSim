@@ -213,7 +213,7 @@ double compute_v(double T, double mass)
  * Move particle by v*dt in x,y
  * Store info
  */
-void runSim(std::array<Particle, NUM> &particles, std::array<std::array<double, 5>, NUM*STEPS> &outArr,std::vector<double> &pressure)
+void runSim(std::array<Particle, NUM> &particles, std::array<std::array<double, 5>, OUT_ARR_SIZE> &outArr,std::vector<double> &pressure)
 {
   //Define required variables
   double distance = 0.0;
@@ -283,7 +283,7 @@ void runSim(std::array<Particle, NUM> &particles, std::array<std::array<double, 
  * Outfile contains initial conditions,
  * final conditions.
  */
-void output(std::array<std::array<double, 5>, NUM*STEPS> &outArr)
+void output(std::array<std::array<double, 5>, OUT_ARR_SIZE> &outArr)
 {
   FILE * handle = fopen("output.dat","w");
   if(NULL == handle)
@@ -292,7 +292,7 @@ void output(std::array<std::array<double, 5>, NUM*STEPS> &outArr)
     exit(1);
   }
 
-  for(int i = 0; i < NUM*STEPS; i++)
+  for(int i = 0; i < OUT_ARR_SIZE; i++)
   {
     fprintf(handle,"%e %e %e %e %e\n",outArr[i][0],outArr[i][1],outArr[i][2],outArr[i][3],outArr[i][4]);
   }

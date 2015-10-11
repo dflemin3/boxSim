@@ -45,14 +45,9 @@ int main(int argc, char * argv[])
       
   }
   //Create output array with rows = num timesteps
-  if(NUM*STEPS*5*8*1.0e-6 > 8)
-  {
-    fprintf(stderr,"Exceeded size of stack.\n");
-    exit(1);
-  }
+  std::array<std::array<double, 5>, OUT_ARR_SIZE> outArr;
   
-  std::array<std::array<double, 5>, NUM*STEPS> outArr;
-  for(int i = 0; i < NUM*STEPS; i++)
+  for(int i = 0; i < OUT_ARR_SIZE; i++)
   {
     for(int j = 0; j < 5; j++)
     {

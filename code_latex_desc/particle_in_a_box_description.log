@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014) (preloaded format=pdflatex 2014.5.25)  9 OCT 2015 01:51
+This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014) (preloaded format=pdflatex 2014.5.25)  10 OCT 2015 22:58
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -388,11 +388,11 @@ e
 
 
 (particle_in_a_box_description.fff) [2] [3]
-Underfull \hbox (badness 10000) in paragraph at lines 135--139
+Underfull \hbox (badness 10000) in paragraph at lines 136--140
 
  []
 
-AED endfloat: Processing end Figures and Tables [4] [5]
+[4] AED endfloat: Processing end Figures and Tables [5]
 (./particle_in_a_box_description.lof)
 \tf@lof=\write5
 \openout5 = `particle_in_a_box_description.lof'.
@@ -412,7 +412,7 @@ pdf pos_dist.eps>
 (epstopdf)             \includegraphics on input line 3.
 Package epstopdf Info: Output file is already uptodate.
 
-<pos_dist-eps-converted-to.pdf, id=125, 595.22375pt x 723.70375pt>
+<pos_dist-eps-converted-to.pdf, id=131, 595.22375pt x 723.70375pt>
 File: pos_dist-eps-converted-to.pdf Graphic file (type pdf)
 
 <use pos_dist-eps-converted-to.pdf>
@@ -432,7 +432,7 @@ pdf vel_dist.eps>
 (epstopdf)             \includegraphics on input line 10.
 Package epstopdf Info: Output file is already uptodate.
 
-<vel_dist-eps-converted-to.pdf, id=168, 684.5575pt x 747.79375pt>
+<vel_dist-eps-converted-to.pdf, id=174, 684.5575pt x 747.79375pt>
 File: vel_dist-eps-converted-to.pdf Graphic file (type pdf)
 
 <use vel_dist-eps-converted-to.pdf>
@@ -452,7 +452,7 @@ to.pdf energy_dist.eps>
 (epstopdf)             \includegraphics on input line 17.
 Package epstopdf Info: Output file is already uptodate.
 
-<energy_dist-eps-converted-to.pdf, id=227, 630.355pt x 743.77875pt>
+<energy_dist-eps-converted-to.pdf, id=233, 630.355pt x 743.77875pt>
 File: energy_dist-eps-converted-to.pdf Graphic file (type pdf)
 
 <use energy_dist-eps-converted-to.pdf>
@@ -472,7 +472,7 @@ Package epstopdf Info: Source file: <vel_comp.eps>
 pdf vel_comp.eps>
 (epstopdf)             \includegraphics on input line 24.
 Package epstopdf Info: Output file is already uptodate.
-<vel_comp-eps-converted-to.pdf, id=278, 708.6475pt x 398.48875pt>
+<vel_comp-eps-converted-to.pdf, id=284, 708.6475pt x 398.48875pt>
 File: vel_comp-eps-converted-to.pdf Graphic file (type pdf)
 
 <use vel_comp-eps-converted-to.pdf>
@@ -492,7 +492,7 @@ to.pdf energy_comp.eps>
 (epstopdf)             \includegraphics on input line 31.
 Package epstopdf Info: Output file is already uptodate.
 
-<energy_comp-eps-converted-to.pdf, id=324, 630.355pt x 402.50375pt>
+<energy_comp-eps-converted-to.pdf, id=330, 630.355pt x 402.50375pt>
 File: energy_comp-eps-converted-to.pdf Graphic file (type pdf)
 
 <use energy_comp-eps-converted-to.pdf>
@@ -502,6 +502,30 @@ Package pdftex.def Info: energy_comp-eps-converted-to.pdf used on input line 31
  [11
 
  <./energy_comp-eps-converted-to.pdf>]
+Package epstopdf Info: Source file: <tau.eps>
+(epstopdf)                    date: 2015-10-10 22:25:35
+(epstopdf)                    size: 53076 bytes
+(epstopdf)             Output file: <tau-eps-converted-to.pdf>
+(epstopdf)                    date: 2015-10-10 22:26:10
+(epstopdf)                    size: 29167 bytes
+(epstopdf)             Command: <repstopdf --outfile=tau-eps-converted-to.pdf t
+au.eps>
+(epstopdf)             \includegraphics on input line 38.
+Package epstopdf Info: Output file is already uptodate.
+ <tau-eps-converted-to.pdf, id=373, 632.3625pt x 989.6975pt>
+File: tau-eps-converted-to.pdf Graphic file (type pdf)
+
+<use tau-eps-converted-to.pdf>
+Package pdftex.def Info: tau-eps-converted-to.pdf used on input line 38.
+(pdftex.def)             Requested size: 418.25368pt x 654.60681pt.
+
+
+LaTeX Warning: Float too large for page by 91.40993pt on input line 40.
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+[12 <./tau-eps-converted-to.pdf>]
 Package epstopdf Info: Source file: <pv_nrt.eps>
 (epstopdf)                    date: 2015-10-07 23:57:27
 (epstopdf)                    size: 84245 bytes
@@ -510,40 +534,41 @@ Package epstopdf Info: Source file: <pv_nrt.eps>
 (epstopdf)                    size: 28285 bytes
 (epstopdf)             Command: <repstopdf --outfile=pv_nrt-eps-converted-to.pd
 f pv_nrt.eps>
-(epstopdf)             \includegraphics on input line 38.
+(epstopdf)             \includegraphics on input line 45.
 Package epstopdf Info: Output file is already uptodate.
- <pv_nrt-eps-converted-to.pdf, id=367, 654.445pt x 979.66pt>
+
+<pv_nrt-eps-converted-to.pdf, id=431, 654.445pt x 979.66pt>
 File: pv_nrt-eps-converted-to.pdf Graphic file (type pdf)
 
 <use pv_nrt-eps-converted-to.pdf>
-Package pdftex.def Info: pv_nrt-eps-converted-to.pdf used on input line 38.
+Package pdftex.def Info: pv_nrt-eps-converted-to.pdf used on input line 45.
 (pdftex.def)             Requested size: 418.25368pt x 626.09831pt.
 
 
-LaTeX Warning: Float too large for page by 62.90143pt on input line 40.
+LaTeX Warning: Float too large for page by 62.90143pt on input line 47.
 
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[12 <./pv_nrt-eps-converted-to.pdf>])
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 155.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 155.
+[13 <./pv_nrt-eps-converted-to.pdf>])
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 168.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 168.
  (./particle_in_a_box_description.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 155.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 155.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 168.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 168.
 Package rerunfilecheck Info: File `particle_in_a_box_description.out' has not c
 hanged.
-(rerunfilecheck)             Checksum: B9105EC3B5F91198A732B772927B10C4;989.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 155.
+(rerunfilecheck)             Checksum: 776D2F420EA5D4DD4D5E7D181918C6CC;1045.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 168.
  ) 
 Here is how much of TeX's memory you used:
- 6848 strings out of 493117
- 98547 string characters out of 6135433
- 193565 words of memory out of 5000000
- 10047 multiletter control sequences out of 15000+600000
+ 6856 strings out of 493117
+ 98711 string characters out of 6135433
+ 193566 words of memory out of 5000000
+ 10052 multiletter control sequences out of 15000+600000
  11237 words of font info for 44 fonts, out of 8000000 for 9000
  1302 hyphenation exceptions out of 8191
- 34i,5n,31p,1472b,424s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 34i,5n,31p,1511b,424s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb
 ></usr/local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmcsc10.pfb
 ></usr/local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb>
@@ -559,10 +584,10 @@ e/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive
 /2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/local/texlive/2
 014/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/201
 4/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb>
-Output written on particle_in_a_box_description.pdf (12 pages, 325843 bytes).
+Output written on particle_in_a_box_description.pdf (13 pages, 353359 bytes).
 PDF statistics:
- 482 PDF objects out of 1000 (max. 8388607)
- 221 compressed objects within 3 object streams
- 35 named destinations out of 1000 (max. 500000)
- 159 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 550 PDF objects out of 1000 (max. 8388607)
+ 242 compressed objects within 3 object streams
+ 38 named destinations out of 1000 (max. 500000)
+ 172 words of extra memory for PDF output out of 10000 (max. 10000000)
 

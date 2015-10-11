@@ -1,7 +1,7 @@
 OBJFLAGS=driver.o particle.o simFunctions.o
 INCFLAGS=particle.h simPrototypes.h
 COMPFLAGS=-Wall -O3 -c -std=c++11 -stdlib=libc++
-LINKFLAGS=
+LINKFLAGS=-Wl,-stack_size -Wl,0x5000000
 GSLFLAGS=
 
 all: driver

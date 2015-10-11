@@ -13,13 +13,14 @@
 #define NUM 100
 
 //Define number of simulation steps
-#define STEPS 2000 
+#define STEPS 20000 
 
 //All units in cgs
 
 //Size of unit i.e. particle (charge radius of proton in cm)
 #define SIZE 8.775e-14
-#define PART_SIZE 0.5*SIZE
+#define PART_SIZE SIZE
+#define OUT_ARR_SIZE NUM*STEPS
 
 //Define mass (mass of proton in g for simplicity)
 #define MASS 1.6726219e-24
@@ -54,9 +55,9 @@ double rollback_time(double distance, const Particle &a, const Particle &b);
 double select_dt(const Particle &a, const double v);
 void enforce_walls_periodic(Particle &a, double dt, std::vector<double> &pressure);
 void move(Particle &a, double dt);
-void runSim(std::array<Particle, NUM> &particles, std::array<std::array<double, 5>, NUM*STEPS> &outArr,std::vector<double> &pressure);
+void runSim(std::array<Particle, NUM> &particles, std::array<std::array<double, 5>, OUT_ARR_SIZE> &outArr,std::vector<double> &pressure);
 double compute_v(double T, double mass);
-void output(std::array<std::array<double, 5>, NUM*STEPS> &outArr);
+void output(std::array<std::array<double, 5>, OUT_ARR_SIZE> &outArr);
 double compute_mean_vel(std::array<Particle, NUM> &p);
 
 #endif
